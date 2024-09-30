@@ -7,7 +7,7 @@ defineProps<{ title: string }>();
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header">{{ title }}</div>
+                <div class="card-header text-uppercase">{{ title }}</div>
                 <div class="card-body">
                     <slot />
                 </div>

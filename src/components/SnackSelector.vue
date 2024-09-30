@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import SnackInput from "./SnackInput.vue";
 
-defineProps<{
+const emit = defineEmits(["snackSelected"]);
+let { step, hamburger } = defineProps<{
+    step: number,
     hamburger: {
 		bread: string | null,
 		salads: string[],
@@ -10,11 +12,25 @@ defineProps<{
 	}
 }>();
 
+function handleSubmit()
+{
+    const {
+        bread,
+        meat
+    } = hamburger;
+
+    if(!bread || !meat) {
+        alert("Selecione o tipo do pão e o tipo de hambúrguer pelo menos.");
+        return;
+    }
+
+    emit('snackSelected');
+}
 </script>
 
 <template>
     <div class="col-md-6 mt-2 d-flex flex-column gap-2">
-        <SnackInput title="TIPO DO PÃO">
+        <SnackInput title="Tipo do Pão">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" v-model="hamburger.bread" value="gergelim">
                 <label class="form-check-label">Gergelim</label>
@@ -25,14 +41,14 @@ defineProps<{
             </div>
         </SnackInput>
 
-        <SnackInput title="SALADAS">
+        <SnackInput title="Saladas">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" v-model="hamburger.salads" value="alface">
                 <label class="form-check-label">Alface</label>
             </div>
         </SnackInput>
 
-        <SnackInput title="MOLHOS">
+        <SnackInput title="Molhos">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" v-model="hamburger.sauces" value="ketchup">
                 <label class="form-check-label">Ketchup</label>
@@ -47,7 +63,7 @@ defineProps<{
             </div>
         </SnackInput>
 
-        <SnackInput title="TIPOS DE HAMBÚRGUER">
+        <SnackInput title="Tipos de Hambúrguer">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" v-model="hamburger.meat" value="bovino">
                 <label class="form-check-label">Bovino</label>
@@ -61,5 +77,11 @@ defineProps<{
                 <label class="form-check-label">Soja</label>
             </div>
         </SnackInput>
+
+        <div class="row mt-2">
+            <div class="col d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" @click.prevent="handleSubmit">Fazer pedido</button>
+            </div>
+        </div>
     </div>
 </template>
